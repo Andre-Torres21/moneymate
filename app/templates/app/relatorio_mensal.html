@@ -1,0 +1,26 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Relatório mensal{% endblock %}
+
+{% block table_header %}
+    <th>Mês</th>
+    <th>Ano</th>
+    <th>Total de entradas</th>
+    <th>Total de despesas</th>
+    <th>Saldo final</th>
+{% endblock %}
+
+{% block table_content %}
+
+    <tr>
+        <td></td>
+        <td></td>
+        <td>{{ total_entradas|floatformat:2 }}</td>
+        <td>{{ total_despesas|floatformat:2 }}</td>
+        <td></td>
+    </tr>
+{% endblock %}
+
+{% block form %}
+    {% comment %}{% endcomment %}
+{% endblock %}

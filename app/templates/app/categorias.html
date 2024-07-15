@@ -1,0 +1,27 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Consultar categorias{% endblock %}
+
+{% block table_title %}Categorias{% endblock %}
+
+{% block table_content %}
+    {% for categoria in categorias %}
+        <tr>
+            <td>{{ categoria.nome }}</td>
+            <td>{{ categoria.tipo }}</td>
+        </tr>
+
+        {% empty %}
+            <p>Não há categorias cadastradas.</p>
+    {% endfor %}
+    <tr>
+        <td colspan="2"><a href="{% url 'add_categoria' %}">Adicionar categoria</a></td>
+    </tr>
+{% endblock %}
+
+{% block link %}categoria{% endblock %}
+{% block link_name %}categoria{% endblock %}
+
+{% block form %}
+    {% comment %}{% endcomment %}
+{% endblock %}

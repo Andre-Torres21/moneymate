@@ -1,0 +1,26 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Consultar metas financeiras{% endblock %}
+
+{% block table_title %}Metas Financeiras{% endblock %}
+
+{% block table_content %}
+    {% for meta_financeira in metas_financeiras %}
+        <tr>
+            <td>{{ meta_financeira.nome }}</td>
+            <td>{{ meta_financeira.valor_total }}</td>
+            <td>{{ meta_financeira.meta_valor_mes }}</td>
+            <td>{{ meta_financeira.Valor_guardar_mes }}</td>
+        </tr>
+
+        {% empty %}
+            <p>Não há metas financeiras cadastradas.</p>
+    {% endfor %}
+    <tr>
+        <td colspan="4"><a href="{% url 'add_meta_financeira' %}">Adicionar meta financeira</a></td>
+    </tr>
+{% endblock %}
+
+{% block form %}
+    {% comment %}{% endcomment %}
+{% endblock %}
