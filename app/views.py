@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.db.models import Sum
@@ -36,7 +37,7 @@ class EntradaCreateView(CreateView):
     success_url = reverse_lazy('entradas')
 
 def transacoes(request):
-    transacoes = models.Transacao.objects.all()
+    transacoes = models.Transacao.objects.order_by('data')
     return render(request, 'app/transacoes.html', {'transacoes': transacoes, 'fields': get_field_names(models.Transacao)})
 
 class TransacaoCreateView(CreateView):
@@ -58,7 +59,7 @@ def relatorio_mensal(request):
     .annotate(total_despesas=Sum('valor'))
     .order_by('mes'))
     
-    relatorio_mensal = {}
+    relatorio_mensal = OrderedDict()
     for entrada in entradas_mes:
         mes = entrada['mes'] 
         relatorio_mensal[mes] = {
@@ -84,7 +85,8 @@ def relatorio_mensal(request):
                 'saldo_final': -despesa['total_despesas']
             }
 
-    return render(request, 'app/relatorio_mensal.html', {'relatorio_mensal': relatorio_mensal.values()})
+    sorted_relatorio_mensal = sorted(relatorio_mensal.items())
+    return render(request, 'app/relatorio_mensal.html', {'relatorio_mensal': [relatorio[1] for relatorio in sorted_relatorio_mensal]})
 
 def metas_financeiras(request):
     metas_financeiras = models.MetaFinanceira.objects.all()
@@ -98,7 +100,7 @@ class MetaFinanceiraCreateView(CreateView):
     
 class MetaFinanceiraAddValueView(CreateView):
     model = models.MetaFinanceira
-    fields = ['valor_guardar_mes']
+    fields = ['nome', 'valor_guardar_mes']
     template_name = 'app/add_valor_meta_financeira.html'
     success_url = reverse_lazy('metas_financeiras')
 

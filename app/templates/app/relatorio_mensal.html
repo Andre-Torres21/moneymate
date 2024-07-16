@@ -11,14 +11,15 @@
 {% endblock %}
 
 {% block table_content %}
-
-    <tr>
-        <td></td>
-        <td></td>
-        <td>{{ total_entradas|floatformat:2 }}</td>
-        <td>{{ total_despesas|floatformat:2 }}</td>
-        <td></td>
-    </tr>
+    {% for relatorio in relatorio_mensal %}
+        <tr>
+            <td>{{ relatorio.mes }}</td>
+            <td>{{ relatorio.ano }}</td>
+            <td>{{ relatorio.total_entradas|floatformat:2 }}</td>
+            <td>{{ relatorio.total_despesas|floatformat:2 }}</td>
+            <td>{{ relatorio.saldo_final|floatformat:2 }}</td>
+        </tr>
+    {% endfor %}
 {% endblock %}
 
 {% block form %}
