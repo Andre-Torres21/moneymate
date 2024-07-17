@@ -110,6 +110,7 @@ class CategoriaUpdateView(UpdateView):
 class CategoriaDeleteView(DeleteView):
     model = Categoria
     success_url = reverse_lazy('categorias')
+    template_name = 'app/delete_categoria.html'
     
 def relatorio_mensal(request):
     entradas_mes = (Transacao.objects.filter(categoria__tipo='Entrada')
