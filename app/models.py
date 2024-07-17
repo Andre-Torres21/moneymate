@@ -58,7 +58,7 @@ class MetaFinanceira(models.Model):
     nome = models.CharField(max_length=64, verbose_name='Nome')
     valor_total = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Valor total')
     meta_valor_mes = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Meta de valor por mês')
-    valor_guardar_mes = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True, verbose_name='Valor a guardar por mês')
+    valor_guardar_mes = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True, verbose_name='Valor a guardar no mês')
 
     def get_absolute_url(self):
         return reverse('metas_financeiras')

@@ -14,7 +14,7 @@
             <td>{{ meta_financeira.nome }}</td>
             <td>{{ meta_financeira.valor_total }}</td>
             <td>{{ meta_financeira.meta_valor_mes }}</td>
-            <td>{{ meta_financeira.Valor_guardar_mes }}</td>
+            <td>{{ meta_financeira.valor_guardar_mes }}</td>
             <td><a href="{% url 'update_meta_financeira' meta_financeira.id %}">Editar</a></td>
             <td><a href="{% url 'update_valor_meta_financeira' meta_financeira.id %}">Editar valor a guardar para o mês</a></td>
             <td><a href="{% url 'delete_meta_financeira' meta_financeira.id %}">Excluir</a></td>
