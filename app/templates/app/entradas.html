@@ -12,13 +12,15 @@
             <td>{{ entrada.data }}</td>
             <td>{{ entrada.observacoes }}</td>
             <td>{{ entrada.categoria.nome }}</td>
+            <td><a href="{% url 'update_entrada' entrada.id %}">Editar</a></td>
+            <td><a href="{% url 'delete_entrada' entrada.id %}">Excluir</a></td>
         </tr>
 
         {% empty %}
             <p>Não há entradas cadastradas.</p>
     {% endfor %}
     <tr>
-        <td colspan="5"><a href="{% url 'add_entrada' %}">Adicionar entrada</a></td>
+        <td colspan="7"><a href="{% url 'add_entrada' %}">Adicionar entrada</a></td>
     </tr>
 {% endblock %}
 

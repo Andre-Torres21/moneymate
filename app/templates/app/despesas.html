@@ -12,13 +12,15 @@
             <td>{{ despesa.data }}</td>
             <td>{{ despesa.observacoes }}</td>
             <td>{{ despesa.categoria.nome }}</td>
+            <td><a href="{% url 'update_despesa' despesa.id %}">Editar</a></td>
+            <td><a href="{% url 'delete_despesa' despesa.id %}">Excluir</a></td>
         </tr>
 
         {% empty %}
             <p>Não há despesas cadastradas.</p>
     {% endfor %}
     <tr>
-        <td colspan="5"><a href="{% url 'add_despesa' %}">Adicionar despesa</a></td>
+        <td colspan="7"><a href="{% url 'add_despesa' %}">Adicionar despesa</a></td>
     </tr>
 {% endblock %}
 

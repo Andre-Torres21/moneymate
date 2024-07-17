@@ -4,6 +4,10 @@
 
 {% block table_title %}Metas Financeiras{% endblock %}
 
+{% block update_meta_financeira %}
+<th>Edição</th>
+{% endblock %}
+
 {% block table_content %}
     {% for meta_financeira in metas_financeiras %}
         <tr>
@@ -11,16 +15,16 @@
             <td>{{ meta_financeira.valor_total }}</td>
             <td>{{ meta_financeira.meta_valor_mes }}</td>
             <td>{{ meta_financeira.Valor_guardar_mes }}</td>
+            <td><a href="{% url 'update_meta_financeira' meta_financeira.id %}">Editar</a></td>
+            <td><a href="{% url 'update_valor_meta_financeira' meta_financeira.id %}">Editar valor a guardar para o mês</a></td>
+            <td><a href="{% url 'delete_meta_financeira' meta_financeira.id %}">Excluir</a></td>
         </tr>
 
         {% empty %}
             <p>Não há metas financeiras cadastradas.</p>
     {% endfor %}
     <tr>
-        <td colspan="4"><a href="{% url 'add_meta_financeira' %}">Adicionar meta financeira</a></td>
-    </tr>
-    <tr>
-        <td colspan="4"><a href="{% url 'add_valor_meta_financeira' %}">Adicionar valor a guardar para uma meta financeira</a></td>
+        <td colspan="7"><a href="{% url 'add_meta_financeira' %}">Adicionar meta financeira</a></td>
     </tr>
 {% endblock %}
 

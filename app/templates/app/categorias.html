@@ -9,13 +9,15 @@
         <tr>
             <td>{{ categoria.nome }}</td>
             <td>{{ categoria.tipo }}</td>
+            <td><a href="{% url 'update_categoria' categoria.id %}">Editar</a></td>
+            <td><a href="{% url 'delete_categoria' categoria.id %}">Excluir</a></td>
         </tr>
 
         {% empty %}
             <p>Não há categorias cadastradas.</p>
     {% endfor %}
     <tr>
-        <td colspan="2"><a href="{% url 'add_categoria' %}">Adicionar categoria</a></td>
+        <td colspan="4"><a href="{% url 'add_categoria' %}">Adicionar categoria</a></td>
     </tr>
 {% endblock %}
 

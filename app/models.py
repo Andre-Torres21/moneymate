@@ -7,7 +7,7 @@ class Categoria(models.Model):
     tipo = models.CharField(max_length=64, verbose_name='Tipo')
 
     def get_absolute_url(self):
-        return reverse('categorias', kwargs={'pk': self.pk})
+        return reverse('categorias')
 
     def __str__(self):
         return self.nome
@@ -20,7 +20,7 @@ class Despesa(models.Model):
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, verbose_name='Categorias')
 
     def get_absolute_url(self):
-        return reverse('despesas', kwargs={'pk': self.pk})
+        return reverse('despesas')
 
     def __str__(self):
         return self.nome
@@ -33,7 +33,7 @@ class Entrada(models.Model):
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, verbose_name='Categoria')
 
     def get_absolute_url(self):
-        return reverse('entradas', kwargs={'pk': self.pk})
+        return reverse('entradas')
 
     def __str__(self):
         return self.fonte
@@ -46,7 +46,7 @@ class Transacao(models.Model):
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, verbose_name='Categoria')
 
     def get_absolute_url(self):
-        return reverse('transacoes', kwargs={'pk': self.pk})
+        return reverse('transacoes')
 
     class Meta:
         verbose_name_plural = 'Transações'
@@ -61,7 +61,7 @@ class MetaFinanceira(models.Model):
     valor_guardar_mes = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True, verbose_name='Valor a guardar por mês')
 
     def get_absolute_url(self):
-        return reverse('meta_financeira', kwargs={'pk': self.pk})
+        return reverse('metas_financeiras')
 
     def __str__(self):
         return self.nome
