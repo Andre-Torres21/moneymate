@@ -1,0 +1,27 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Cadastro{% endblock %}
+
+{% block nav %}
+    {% comment %}
+    {% endcomment %}
+{% endblock %}
+
+{% block form_action %}{% url 'cadastro' %}{% endblock %}
+
+{% block button %}Cadastrar-se{% endblock %}
+
+{% if messages %}
+    <div>
+        {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% block table %}
+    {% comment %}
+    {% endcomment %}
+{% endblock %}

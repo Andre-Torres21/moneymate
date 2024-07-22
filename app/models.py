@@ -17,7 +17,7 @@ class Despesa(models.Model):
     valor = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Valor')
     data = models.DateField(verbose_name='Data')
     observacoes = models.TextField(blank=True, verbose_name='Observações')
-    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, verbose_name='Categorias')
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, verbose_name='Categoria')
 
     def get_absolute_url(self):
         return reverse('despesas')

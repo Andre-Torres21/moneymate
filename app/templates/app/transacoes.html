@@ -12,8 +12,8 @@
             <td>{{ transacao.data }}</td>
             <td>{{ transacao.observacoes }}</td>
             <td>{{ transacao.categoria }}</td>
-            <td><a href="{% url 'update_transacao' transacao.id %}">Editar</a></td>
-            <td><a href="{% url 'delete_transacao' transacao.id %}">Excluir</a></td>
+            <td><a href="{% url 'update_transacao' transacao.id %}" class="btn btn-warning">Editar</a></td>
+            <td><a href="{% url 'delete_transacao' transacao.id %}" class="btn btn-danger">Excluir</a></td>
         </tr>
 
         {% empty %}
