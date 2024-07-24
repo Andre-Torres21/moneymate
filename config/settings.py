@@ -79,7 +79,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'moneymate',
         'USER': 'postgres',
-        'PASSWORD': 'power21A',
+        'PASSWORD': '123456',
         'HOST': 'localhost',
         'PORT': '5432',
     }

@@ -21,12 +21,13 @@ def index(request):
 def cadastro(request):
     form = CadastroForm()
     if request.method == 'POST':
+        nome = request.POST.get('nome')
         nome_usuario = request.POST.get('nome_usuario')
         senha = request.POST.get('senha')
         # if User.objects.get(username=nome_usuario).exists():
         #     messages.error(request, 'Usuário já cadastrado!')
         # else:
-        User.objects.create_user(username=nome_usuario, password=senha)
+        User.objects.create_user(first_name=nome, username=nome_usuario, password=senha)
         messages.success(request, 'Usuário cadastrado com sucesso!')
         return redirect(reverse('login'))
     return render(request, 'app/cadastro.html', {'form': form})
