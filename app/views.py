@@ -1,4 +1,6 @@
 from collections import OrderedDict
+from django.forms import BaseModelForm
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.db.models import Sum
@@ -17,37 +19,24 @@ def index(request):
     return render(request, 'app/index.html')
 
 def cadastro(request):
-    form = CadastroLoginForm()
+    form = CadastroForm()
     if request.method == 'POST':
         nome_usuario = request.POST.get('nome_usuario')
         senha = request.POST.get('senha')
-        if User.objects.get(username=nome_usuario):
-            messages.error(request, 'Usuário já cadastrado!')
-        else:
-            User.objects.create_user(username=nome_usuario, password=senha)
-            messages.success(request, 'Usuário cadastrado com sucesso!')
-            return redirect(reverse('login'))
+        # if User.objects.get(username=nome_usuario).exists():
+        #     messages.error(request, 'Usuário já cadastrado!')
+        # else:
+        User.objects.create_user(username=nome_usuario, password=senha)
+        messages.success(request, 'Usuário cadastrado com sucesso!')
+        return redirect(reverse('login'))
     return render(request, 'app/cadastro.html', {'form': form})
-
-def login_view(request):
-    form = CadastroLoginForm()
-    if request.method == 'POST':
-        user = authenticate(request, username=request.POST.get('nome_usuario'), password=request.POST.get('senha'))
-        if user is not None:
-            login(request, user)
-            return redirect(reverse('index'))
-    return render(request, 'app/login.html', {'form': form})
-
-def logout_view(request):
-    logout(request)
-    return redirect(reverse('login'))
 
 def get_field_names(model):
     fields = model._meta.get_fields()
     field_names = []
     
     for field in fields:
-        if field.name == 'id':
+        if field.name == 'id' or field.name == 'usuario':
             continue
         if field.many_to_one and not field.auto_created:  # Campo ForeignKey
             field_names.append(field.verbose_name)
@@ -57,18 +46,46 @@ def get_field_names(model):
     return field_names
 
 @login_required
+def categorias(request):
+    categorias = Categoria.objects.filter(usuario=request.user)
+    return render(request, 'app/categorias.html', {'categorias': categorias, 'fields': get_field_names(Categoria)})
+
+class CategoriaCreateView(LoginRequiredMixin, CreateView):
+    model = Categoria
+    fields = ['nome', 'tipo']
+    template_name = 'app/add_categoria.html'
+    
+    def form_valid(self, form):
+        form.instance.usuario = self.request.user
+        return super().form_valid(form)
+
+class CategoriaUpdateView(LoginRequiredMixin, UpdateView):
+    model = Categoria
+    fields = ['nome', 'tipo']
+    template_name = 'app/update_categoria.html'
+
+class CategoriaDeleteView(LoginRequiredMixin, DeleteView):
+    model = Categoria
+    success_url = reverse_lazy('categorias')
+    template_name = 'app/delete_categoria.html'
+
+@login_required
 def despesas(request):
-    despesas = Despesa.objects.all()
+    despesas = Despesa.objects.filter(usuario=request.user)
     return render(request, 'app/despesas.html', {'despesas': despesas, 'fields': get_field_names(Despesa)})
 
 class DespesaCreateView(LoginRequiredMixin, CreateView):
     model = Despesa
-    fields = '__all__'
+    fields = ['nome', 'valor', 'data', 'observacoes', 'categoria']
     template_name = 'app/add_despesa.html'
+    
+    def form_valid(self, form):
+        form.instance.usuario = self.request.user
+        return super().form_valid(form)
     
 class DespesaUpdateView(LoginRequiredMixin, UpdateView):
     model = Despesa
-    fields = '__all__'
+    fields = ['nome', 'valor', 'data', 'observacoes', 'categoria']
     template_name = 'app/update_despesa.html'
 
 class DespesaDeleteView(LoginRequiredMixin, DeleteView):
@@ -77,17 +94,21 @@ class DespesaDeleteView(LoginRequiredMixin, DeleteView):
 
 @login_required
 def entradas(request):
-    entradas = Entrada.objects.all()
+    entradas = Entrada.objects.filter(usuario=request.user)
     return render(request, 'app/entradas.html', {'entradas': entradas, 'fields': get_field_names(Entrada)})
 
 class EntradaCreateView(LoginRequiredMixin, CreateView):
     model = Entrada
-    fields = '__all__'
+    fields = ['fonte', 'valor', 'data', 'observacoes', 'categoria']
     template_name = 'app/add_entrada.html'
+    
+    def form_valid(self, form):
+        form.instance.usuario = self.request.user
+        return super().form_valid(form)
     
 class EntradaUpdateView(LoginRequiredMixin, UpdateView):
     model = Entrada
-    fields = '__all__'
+    fields = ['fonte', 'valor', 'data', 'observacoes', 'categoria']
     template_name = 'app/update_entrada.html'
 
 class EntradaDeleteView(LoginRequiredMixin, DeleteView):
@@ -96,17 +117,21 @@ class EntradaDeleteView(LoginRequiredMixin, DeleteView):
 
 @login_required
 def transacoes(request):
-    transacoes = Transacao.objects.order_by('data')
+    transacoes = Transacao.objects.filter(usuario=request.user).order_by('data')
     return render(request, 'app/transacoes.html', {'transacoes': transacoes, 'fields': get_field_names(Transacao)})
 
 class TransacaoCreateView(LoginRequiredMixin, CreateView):
     model = Transacao
-    fields = '__all__'
+    fields = ['nome', 'valor', 'data', 'observacoes', 'categoria']
     template_name = 'app/add_transacao.html'
+    
+    def form_valid(self, form):
+        form.instance.usuario = self.request.user
+        return super().form_valid(form)
 
 class TransacaoUpdateView(LoginRequiredMixin, UpdateView):
     model = Transacao
-    fields = '__all__'
+    fields = ['nome', 'valor', 'data', 'observacoes', 'categoria']
     template_name = 'app/update_transacao.html'
 
 class TransacaoDeleteView(LoginRequiredMixin, DeleteView):
@@ -115,13 +140,17 @@ class TransacaoDeleteView(LoginRequiredMixin, DeleteView):
 
 @login_required
 def metas_financeiras(request):
-    metas_financeiras = MetaFinanceira.objects.all()
+    metas_financeiras = MetaFinanceira.objects.filter(usuario=request.user)
     return render(request, 'app/metas_financeiras.html', {'metas_financeiras': metas_financeiras, 'fields': get_field_names(MetaFinanceira)})
 
 class MetaFinanceiraCreateView(LoginRequiredMixin, CreateView):
     model = MetaFinanceira
     fields = ['nome', 'valor_total', 'meta_valor_mes']
     template_name = 'app/add_meta_financeira.html'
+    
+    def form_valid(self, form):
+        form.instance.usuario = self.request.user
+        return super().form_valid(form)
 
 class MetaFinanceiraUpdateView(LoginRequiredMixin, UpdateView):
     model = MetaFinanceira
@@ -138,34 +167,14 @@ class MetaFinanceiraDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('metas_financeiras')
 
 @login_required
-def categorias(request):
-    categorias = Categoria.objects.all()
-    return render(request, 'app/categorias.html', {'categorias': categorias, 'fields': get_field_names(Categoria)})
-
-class CategoriaCreateView(LoginRequiredMixin, CreateView):
-    model = Categoria
-    fields = '__all__'
-    template_name = 'app/add_categoria.html'
-
-class CategoriaUpdateView(LoginRequiredMixin, UpdateView):
-    model = Categoria
-    fields = '__all__'
-    template_name = 'app/update_categoria.html'
-
-class CategoriaDeleteView(LoginRequiredMixin, DeleteView):
-    model = Categoria
-    success_url = reverse_lazy('categorias')
-    template_name = 'app/delete_categoria.html'
-
-@login_required
 def relatorio_mensal(request):
-    entradas_mes = (Transacao.objects.filter(categoria__tipo='Entrada')
+    entradas_mes = (Transacao.objects.filter(usuario=request.user, categoria__tipo='Entrada')
     .annotate(mes=TruncMonth('data'))
     .values('mes')
     .annotate(total_entradas=Sum('valor'))
     .order_by('mes'))
     
-    despesas_mes = (Transacao.objects.filter(categoria__tipo='Despesa')
+    despesas_mes = (Transacao.objects.filter(usuario=request.user, categoria__tipo='Despesa')
     .annotate(mes=TruncMonth('data'))
     .values('mes')
     .annotate(total_despesas=Sum('valor'))

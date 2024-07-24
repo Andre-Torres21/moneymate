@@ -1,7 +1,7 @@
 {% extends 'app/base.html' %}
 
 {% block index %}
-    <h2>Bem vindo {usuario}</h2>
+    <h2>Bem vindo, {{request.user.first_name}}</h2>
     <p>Cotação atual do dólar: {cotacao}</p>
 {% endblock %}
 

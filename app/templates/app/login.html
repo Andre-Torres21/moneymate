@@ -7,9 +7,11 @@
     {% endcomment %}
 {% endblock %}
 
-{% block form_action %}{% url 'login' %}{% endblock %}
-
 {% block button %}Entrar{% endblock %}
+
+{% block cadastro %}
+    <a href="{% url 'cadastro' %}">Cadastre-se</a>
+{% endblock %}
 
 {% block table %}
     {% comment %}
