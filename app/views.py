@@ -1,6 +1,4 @@
 from collections import OrderedDict
-from django.forms import BaseModelForm
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.db.models import Sum
