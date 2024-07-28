@@ -12,8 +12,8 @@
             <td>{{ entrada.data }}</td>
             <td>{{ entrada.observacoes }}</td>
             <td>{{ entrada.categoria.nome }}</td>
-            <td><a href="{% url 'update_entrada' entrada.id %}" class="btn btn-warning">Editar</a></td>
-            <td><a href="{% url 'delete_entrada' entrada.id %}" class="btn btn-danger">Excluir</a></td>
+            <td><a href="{% url 'update_entrada' entrada.slug %}" class="btn btn-warning">Editar</a></td>
+            <td><a href="{% url 'delete_entrada' entrada.slug %}" class="btn btn-danger">Excluir</a></td>
         </tr>
 
         {% empty %}

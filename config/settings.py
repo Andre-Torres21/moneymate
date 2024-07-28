@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-z8@88g_n1^gjucl7x0d+v+wv%^amzf-hyx87n=id^amv-!cse&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -77,10 +77,10 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'moneymate',
-        'USER': 'postgres',
+        'NAME': 'postgres',
+        'USER': 'masteradmin',
         'PASSWORD': 'power21A',
-        'HOST': 'localhost',
+        'HOST': 'moneymate.c1gi684g81w9.sa-east-1.rds.amazonaws.com',
         'PORT': '5432',
     }
 }

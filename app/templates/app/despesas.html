@@ -12,8 +12,8 @@
             <td>{{ despesa.data }}</td>
             <td>{{ despesa.observacoes }}</td>
             <td>{{ despesa.categoria.nome }}</td>
-            <td><a href="{% url 'update_despesa' despesa.id %}" class="btn btn-warning">Editar</a></td>
-            <td><a href="{% url 'delete_despesa' despesa.id %}" class="btn btn-danger">Excluir</a></td>
+            <td><a href="{% url 'update_despesa' despesa.slug %}" class="btn btn-warning">Editar</a></td>
+            <td><a href="{% url 'delete_despesa' despesa.slug %}" class="btn btn-danger">Excluir</a></td>
         </tr>
 
         {% empty %}

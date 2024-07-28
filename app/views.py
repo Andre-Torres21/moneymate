@@ -36,7 +36,7 @@ def get_field_names(model):
     field_names = []
     
     for field in fields:
-        if field.name == 'id' or field.name == 'usuario':
+        if field.name == 'id' or field.name == 'usuario' or field.name == 'slug':
             continue
         if field.many_to_one and not field.auto_created:  # Campo ForeignKey
             field_names.append(field.verbose_name)
@@ -91,6 +91,7 @@ class DespesaUpdateView(LoginRequiredMixin, UpdateView):
 class DespesaDeleteView(LoginRequiredMixin, DeleteView):
     model = Despesa
     success_url = reverse_lazy('despesas')
+    template_name = 'app/delete_despesa.html'
 
 @login_required
 def entradas(request):
@@ -114,6 +115,7 @@ class EntradaUpdateView(LoginRequiredMixin, UpdateView):
 class EntradaDeleteView(LoginRequiredMixin, DeleteView):
     model = Entrada
     success_url = reverse_lazy('entradas')
+    template_name = 'app/delete_entrada.html'
 
 @login_required
 def transacoes(request):
@@ -137,6 +139,7 @@ class TransacaoUpdateView(LoginRequiredMixin, UpdateView):
 class TransacaoDeleteView(LoginRequiredMixin, DeleteView):
     model = Transacao
     success_url = reverse_lazy('transacoes')
+    template_name = 'app/delete_transacao.html'
 
 @login_required
 def metas_financeiras(request):
@@ -165,6 +168,7 @@ class MetaFinanceiraUpdateValueView(LoginRequiredMixin, UpdateView):
 class MetaFinanceiraDeleteView(LoginRequiredMixin, DeleteView):
     model = MetaFinanceira
     success_url = reverse_lazy('metas_financeiras')
+    template_name = 'app/delete_meta_financeira.html'
 
 @login_required
 def relatorio_mensal(request):
