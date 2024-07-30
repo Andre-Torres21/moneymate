@@ -1,4 +1,6 @@
 from collections import OrderedDict
+from django.http import HttpRequest
+from django.http.response import HttpResponse as HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.db.models import Sum
@@ -6,6 +8,7 @@ from django.db.models.functions import TruncMonth
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
@@ -16,19 +19,23 @@ from .models import *
 def index(request):
     return render(request, 'app/index.html')
 
-def cadastro(request):
-    form = CadastroForm()
-    if request.method == 'POST':
-        nome = request.POST.get('nome')
-        nome_usuario = request.POST.get('nome_usuario')
-        senha = request.POST.get('senha')
-        # if User.objects.get(username=nome_usuario).exists():
-        #     messages.error(request, 'Usuário já cadastrado!')
-        # else:
-        User.objects.create_user(first_name=nome, username=nome_usuario, password=senha)
-        messages.success(request, 'Usuário cadastrado com sucesso!')
-        return redirect(reverse('login'))
-    return render(request, 'app/cadastro.html', {'form': form})
+class CadastroView(CreateView):
+    form_class = CadastroForm
+    template_name = 'app/cadastro.html'
+    success_url = reverse_lazy('index')
+    
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect(reverse_lazy('index'))
+        return super().get(request, *args, **kwargs)
+
+class CustomLoginView(LoginView):
+    template_name = 'app/login.html'
+    
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect(reverse_lazy('index'))
+        return super().dispatch(request, *args, **kwargs)
 
 def get_field_names(model):
     fields = model._meta.get_fields()
@@ -67,7 +74,7 @@ class CategoriaDeleteView(LoginRequiredMixin, DeleteView):
     model = Categoria
     success_url = reverse_lazy('categorias')
     template_name = 'app/delete_categoria.html'
-
+        
 @login_required
 def despesas(request):
     despesas = Despesa.objects.filter(usuario=request.user)
@@ -75,17 +82,27 @@ def despesas(request):
 
 class DespesaCreateView(LoginRequiredMixin, CreateView):
     model = Despesa
-    fields = ['nome', 'valor', 'data', 'observacoes', 'categoria']
+    form_class = DespesaForm
     template_name = 'app/add_despesa.html'
     
     def form_valid(self, form):
         form.instance.usuario = self.request.user
         return super().form_valid(form)
     
+    def get_form_kwargs(self):
+            kwargs = super().get_form_kwargs()
+            kwargs['usuario'] = self.request.user
+            return kwargs
+    
 class DespesaUpdateView(LoginRequiredMixin, UpdateView):
     model = Despesa
-    fields = ['nome', 'valor', 'data', 'observacoes', 'categoria']
+    form_class = DespesaForm
     template_name = 'app/update_despesa.html'
+    
+    def get_form_kwargs(self):
+            kwargs = super().get_form_kwargs()
+            kwargs['usuario'] = self.request.user
+            return kwargs
 
 class DespesaDeleteView(LoginRequiredMixin, DeleteView):
     model = Despesa
@@ -99,17 +116,27 @@ def entradas(request):
 
 class EntradaCreateView(LoginRequiredMixin, CreateView):
     model = Entrada
-    fields = ['fonte', 'valor', 'data', 'observacoes', 'categoria']
+    form_class = EntradaForm
     template_name = 'app/add_entrada.html'
     
     def form_valid(self, form):
         form.instance.usuario = self.request.user
         return super().form_valid(form)
     
+    def get_form_kwargs(self):
+            kwargs = super().get_form_kwargs()
+            kwargs['usuario'] = self.request.user
+            return kwargs
+    
 class EntradaUpdateView(LoginRequiredMixin, UpdateView):
     model = Entrada
-    fields = ['fonte', 'valor', 'data', 'observacoes', 'categoria']
+    form_class = EntradaForm
     template_name = 'app/update_entrada.html'
+    
+    def get_form_kwargs(self):
+            kwargs = super().get_form_kwargs()
+            kwargs['usuario'] = self.request.user
+            return kwargs
 
 class EntradaDeleteView(LoginRequiredMixin, DeleteView):
     model = Entrada
@@ -123,17 +150,27 @@ def transacoes(request):
 
 class TransacaoCreateView(LoginRequiredMixin, CreateView):
     model = Transacao
-    fields = ['nome', 'valor', 'data', 'observacoes', 'categoria']
+    form_class = TransacaoForm
     template_name = 'app/add_transacao.html'
     
     def form_valid(self, form):
         form.instance.usuario = self.request.user
         return super().form_valid(form)
+    
+    def get_form_kwargs(self):
+            kwargs = super().get_form_kwargs()
+            kwargs['usuario'] = self.request.user
+            return kwargs
 
 class TransacaoUpdateView(LoginRequiredMixin, UpdateView):
     model = Transacao
-    fields = ['nome', 'valor', 'data', 'observacoes', 'categoria']
+    form_class = TransacaoForm
     template_name = 'app/update_transacao.html'
+    
+    def get_form_kwargs(self):
+            kwargs = super().get_form_kwargs()
+            kwargs['usuario'] = self.request.user
+            return kwargs
 
 class TransacaoDeleteView(LoginRequiredMixin, DeleteView):
     model = Transacao
@@ -147,17 +184,27 @@ def metas_financeiras(request):
 
 class MetaFinanceiraCreateView(LoginRequiredMixin, CreateView):
     model = MetaFinanceira
-    fields = ['nome', 'valor_total', 'meta_valor_mes']
+    form_class = MetaFinanceiraForm
     template_name = 'app/add_meta_financeira.html'
     
     def form_valid(self, form):
         form.instance.usuario = self.request.user
         return super().form_valid(form)
+    
+    def get_form_kwargs(self):
+            kwargs = super().get_form_kwargs()
+            kwargs['usuario'] = self.request.user
+            return kwargs
 
 class MetaFinanceiraUpdateView(LoginRequiredMixin, UpdateView):
     model = MetaFinanceira
-    fields = ['nome', 'valor_total', 'meta_valor_mes']
+    form_class = MetaFinanceiraForm
     template_name = 'app/update_meta_financeira.html'
+    
+    def get_form_kwargs(self):
+            kwargs = super().get_form_kwargs()
+            kwargs['usuario'] = self.request.user
+            return kwargs
 
 class MetaFinanceiraUpdateValueView(LoginRequiredMixin, UpdateView):
     model = MetaFinanceira

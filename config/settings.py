@@ -77,10 +77,10 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'masteradmin',
-        'PASSWORD': 'power21A',
-        'HOST': 'moneymate.c1gi684g81w9.sa-east-1.rds.amazonaws.com',
+        'NAME': 'moneymate',
+        'USER': 'postgres',
+        'PASSWORD': '123456',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
