@@ -1,10 +1,13 @@
 from django import forms
 from .models import *
 
-class CadastroForm(forms.Form):
-    nome = forms.CharField(max_length=64)
-    nome_usuario = forms.CharField(label='Nome de usuário')
-    senha = forms.CharField(widget=forms.PasswordInput)
+class CadastroForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'password', 'email']
+        widgets = {
+            'password': forms.PasswordInput(),
+        }
         
 class DespesaForm(forms.ModelForm):
     class Meta:

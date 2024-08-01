@@ -78,6 +78,25 @@ class CategoriaDeleteView(LoginRequiredMixin, DeleteView):
 @login_required
 def despesas(request):
     despesas = Despesa.objects.filter(usuario=request.user)
+    form = DespesaForm()
+    if request.method == 'POST':
+        nome = request.POST.get('nome')
+        valor = request.POST.get('valor')
+        data = request.POST.get('data')
+        observacoes = request.POST.get('observacoes')
+        categoria = request.POST.get('categoria')
+        
+        if nome or valor or data or observacoes or categoria:
+            if nome:
+                despesas = despesas.filter(nome=nome)
+            if valor:
+                despesas = despesas.filter(valor=valor)
+            if data:
+                despesas = despesas.filter(data=data)
+            if observacoes:
+                despesas = despesas.filter(observacoes=observacoes)
+            if categoria:
+                despesas = despesas.filter(categoria=categoria)
     return render(request, 'app/despesas.html', {'despesas': despesas, 'fields': get_field_names(Despesa)})
 
 class DespesaCreateView(LoginRequiredMixin, CreateView):
