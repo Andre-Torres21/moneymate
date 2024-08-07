@@ -21,9 +21,16 @@
     </tr>
 {% endblock %}
 
-{% block link %}categoria{% endblock %}
-{% block link_name %}categoria{% endblock %}
+{% block button %}Filtrar{% endblock %}
 
-{% block form %}
-    {% comment %}{% endcomment %}
+{% block classes %}row row-cols-lg-auto g-3 align-items-center{% endblock %}
+
+{% block script %}
+    <script>
+        document.querySelector('select').required = false;
+        inputs = document.querySelectorAll('input');
+        for (let input of inputs) {
+            input.required = false;
+        }
+    </script>
 {% endblock %}

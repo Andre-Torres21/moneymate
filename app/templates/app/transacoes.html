@@ -9,7 +9,7 @@
         <tr>
             <td>{{ transacao.nome }}</td>
             <td>{{ transacao.valor }}</td>
-            <td>{{ transacao.data }}</td>
+            <td>{{ transacao.data|date:"SHORT_DATE_FORMAT" }}</td>
             <td>{{ transacao.observacoes }}</td>
             <td>{{ transacao.categoria }}</td>
             <td><a href="{% url 'update_transacao' transacao.slug %}" class="btn btn-warning">Editar</a></td>
@@ -24,6 +24,16 @@
     </tr>
 {% endblock %}
 
-{% block form %}
-    {% comment %}{% endcomment %}
+{% block button %}Filtrar{% endblock %}
+
+{% block classes %}row row-cols-lg-auto g-3 align-items-center{% endblock %}
+
+{% block script %}
+    <script>
+        document.querySelector('select').required = false;
+        inputs = document.querySelectorAll('input');
+        for (let input of inputs) {
+            input.required = false;
+        }
+    </script>
 {% endblock %}

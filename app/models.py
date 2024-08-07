@@ -48,7 +48,7 @@ class Despesa(models.Model):
         return self.nome
 
 class Entrada(models.Model):
-    fonte = models.CharField(max_length=64, verbose_name='Fonte')
+    nome = models.CharField(max_length=64, verbose_name='Nome')
     valor = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Valor')
     data = models.DateField(verbose_name='Data')
     observacoes = models.TextField(blank=True, verbose_name='Observações')
@@ -61,12 +61,12 @@ class Entrada(models.Model):
     
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.fonte)
+            self.slug = slugify(self.nome)
 
         return super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.fonte
+        return self.nome
 
 class Transacao(models.Model):
     nome = models.CharField(max_length=64, verbose_name='Nome')

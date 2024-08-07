@@ -7,9 +7,9 @@
 {% block table_content %}
     {% for entrada in entradas %}
         <tr>
-            <td>{{ entrada.fonte }}</td>
+            <td>{{ entrada.nome }}</td>
             <td>{{ entrada.valor }}</td>
-            <td>{{ entrada.data }}</td>
+            <td>{{ entrada.data|date:"SHORT_DATE_FORMAT" }}</td>
             <td>{{ entrada.observacoes }}</td>
             <td>{{ entrada.categoria.nome }}</td>
             <td><a href="{% url 'update_entrada' entrada.slug %}" class="btn btn-warning">Editar</a></td>
@@ -24,6 +24,16 @@
     </tr>
 {% endblock %}
 
-{% block form %}
-    {% comment %}{% endcomment %}
+{% block button %}Filtrar{% endblock %}
+
+{% block classes %}row row-cols-lg-auto g-3 align-items-center{% endblock %}
+
+{% block script %}
+    <script>
+        document.querySelector('select').required = false;
+        inputs = document.querySelectorAll('input');
+        for (let input of inputs) {
+            input.required = false;
+        }
+    </script>
 {% endblock %}

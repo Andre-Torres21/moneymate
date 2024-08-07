@@ -10,23 +10,23 @@
         <header>
             <h1 class="text-center">Money Mate - Gerenciador de finanças</h1>
             {% block nav %}
-            <nav class="navbar navbar-expand-lg bg-info-subtle border-top border-dark">
-                <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="/admin/">Admin</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'despesas' %}">Gerenciar despesas</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'entradas' %}">Gerenciar entradas</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'transacoes' %}">Gerenciar transações</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'metas_financeiras' %}">Gerenciar metas financeiras</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'categorias' %}">Gerenciar categorias</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'relatorio_mensal' %}">Consultar relatórios mensais</a></li>
-                    <li class="nav-item">
-                        <form action="{% url 'logout' %}" method="post">
-                            {% csrf_token %}
-                            <input type="submit" value="Logout" class="nav-link">
-                        </form>
-                    </li>
-                </ul>
-            </nav>
+                <nav class="navbar navbar-expand-lg bg-info-subtle border-top border-dark">
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a class="nav-link" href="/admin/">Admin</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'despesas' %}">Gerenciar despesas</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'entradas' %}">Gerenciar entradas</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'transacoes' %}">Gerenciar transações</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'metas_financeiras' %}">Gerenciar metas financeiras</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'categorias' %}">Gerenciar categorias</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'relatorio_mensal' %}">Consultar relatórios mensais</a></li>
+                        <li class="nav-item">
+                            <form action="{% url 'logout' %}" method="post">
+                                {% csrf_token %}
+                                <input type="submit" value="Logout" class="nav-link">
+                            </form>
+                        </li>
+                    </ul>
+                </nav>
             {% endblock %}
         </header>
 
@@ -38,8 +38,8 @@
                     <thead>
                         <tr>
                             {% block table_header %}{% endblock %}
-                            {% for field in fields %}
-                                <th>{{ field }}</th>
+                            {% for field_name in field_names %}
+                                <th>{{ field_name }}</th>
                             {% endfor %}
                             {% block update_meta_financeira %}
                             {% endblock %}
@@ -54,31 +54,25 @@
                     </tbody>
                 </table>
             {% endblock %}
-
-            {% block form %}
-                <h3>{% block form_title %}{% endblock %}</h3>
-                <form action="{% block form_action %}{% endblock %}" method="post" class="row">
-                    {% csrf_token %}
-                    {{ form.as_div }}
-                    <input type="submit" value="{% block button%}{% endblock %}" class="btn btn-primary">
-                </form>
-            {% endblock %}
-
-            {% block cadastro %}{% endblock %}
+            {% block form %}{% endblock %}
         </main>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-        <!-- <script>
+
+        <script>
+            let inputs = document.querySelectorAll('input');
+            for (let input of inputs) {
+                input.classList.add('form-control');
+            }
+
             let labels = document.querySelectorAll('label');
             for (let label of labels) {
                 label.classList.add('form-label');
             }
-
-            let inputs = document.querySelectorAll('input');
-            document.querySelector('textarea').classList.add('form-control')
+            
             document.querySelector('select').classList.add('form-select')
-            for (let input of inputs) {
-                input.classList.add('form-control');
-            }
-        </script> -->
+            document.querySelector('textarea').classList.add('form-control')
+            document.querySelector('textarea').rows = 1
+        </script>
+        {% block script %}{% endblock %}
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     </body>
 </html>

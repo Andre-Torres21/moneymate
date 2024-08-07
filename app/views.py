@@ -22,12 +22,18 @@ def index(request):
 class CadastroView(CreateView):
     form_class = CadastroForm
     template_name = 'app/cadastro.html'
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('login')
     
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             return redirect(reverse_lazy('index'))
         return super().get(request, *args, **kwargs)
+    
+    def form_valid(self, form):
+        user = form.save(commit=False)
+        user.set_password(form.cleaned_data['password'])
+        user.save()
+        return super().form_valid(form)
 
 class CustomLoginView(LoginView):
     template_name = 'app/login.html'
@@ -53,8 +59,19 @@ def get_field_names(model):
 
 @login_required
 def categorias(request):
-    categorias = Categoria.objects.filter(usuario=request.user)
-    return render(request, 'app/categorias.html', {'categorias': categorias, 'fields': get_field_names(Categoria)})
+    categorias = Categoria.objects.filter(usuario=request.user).order_by('nome')
+    form = CategoriaForm()
+    if request.method == 'POST':
+        categoria = form.save(commit=False)
+        categoria.usuario = request.user
+        nome = request.POST.get('nome')
+        tipo = request.POST.get('tipo')
+        if nome or tipo:
+            if nome:
+                categorias = categorias.filter(nome__icontains=nome)
+            if tipo:
+                categorias = categorias.filter(tipo__icontains=tipo)
+    return render(request, 'app/categorias.html', {'categorias': categorias, 'field_names': get_field_names(Categoria), 'form': form})
 
 class CategoriaCreateView(LoginRequiredMixin, CreateView):
     model = Categoria
@@ -77,8 +94,8 @@ class CategoriaDeleteView(LoginRequiredMixin, DeleteView):
         
 @login_required
 def despesas(request):
-    despesas = Despesa.objects.filter(usuario=request.user)
-    form = DespesaForm()
+    despesas = Despesa.objects.filter(usuario=request.user).order_by('data')
+    form = DespesaForm(usuario=request.user)
     if request.method == 'POST':
         nome = request.POST.get('nome')
         valor = request.POST.get('valor')
@@ -88,16 +105,16 @@ def despesas(request):
         
         if nome or valor or data or observacoes or categoria:
             if nome:
-                despesas = despesas.filter(nome=nome)
+                despesas = despesas.filter(nome__icontains=nome)
             if valor:
-                despesas = despesas.filter(valor=valor)
+                despesas = despesas.filter(valor__icontains=valor)
             if data:
                 despesas = despesas.filter(data=data)
             if observacoes:
-                despesas = despesas.filter(observacoes=observacoes)
+                despesas = despesas.filter(observacoes__icontains=observacoes)
             if categoria:
                 despesas = despesas.filter(categoria=categoria)
-    return render(request, 'app/despesas.html', {'despesas': despesas, 'fields': get_field_names(Despesa)})
+    return render(request, 'app/despesas.html', {'despesas': despesas, 'field_names': get_field_names(Despesa), 'form': form})
 
 class DespesaCreateView(LoginRequiredMixin, CreateView):
     model = Despesa
@@ -130,8 +147,27 @@ class DespesaDeleteView(LoginRequiredMixin, DeleteView):
 
 @login_required
 def entradas(request):
-    entradas = Entrada.objects.filter(usuario=request.user)
-    return render(request, 'app/entradas.html', {'entradas': entradas, 'fields': get_field_names(Entrada)})
+    entradas = Entrada.objects.filter(usuario=request.user).order_by('data')
+    form = EntradaForm(usuario=request.user)
+    if request.method == 'POST':
+        nome = request.POST.get('nome')
+        valor = request.POST.get('valor')
+        data = request.POST.get('data')
+        observacoes = request.POST.get('observacoes')
+        categoria = request.POST.get('categoria')
+        
+        if nome or valor or data or observacoes or categoria:
+            if nome:
+                entradas = entradas.filter(nome__icontains=nome)
+            if valor:
+                entradas = entradas.filter(valor__icontains=valor)
+            if data:
+                entradas = entradas.filter(data=data)
+            if observacoes:
+                entradas = entradas.filter(observacoes__icontains=observacoes)
+            if categoria:
+                entradas = entradas.filter(categoria=categoria)
+    return render(request, 'app/entradas.html', {'entradas': entradas, 'field_names': get_field_names(Entrada), 'form': form})
 
 class EntradaCreateView(LoginRequiredMixin, CreateView):
     model = Entrada
@@ -165,7 +201,26 @@ class EntradaDeleteView(LoginRequiredMixin, DeleteView):
 @login_required
 def transacoes(request):
     transacoes = Transacao.objects.filter(usuario=request.user).order_by('data')
-    return render(request, 'app/transacoes.html', {'transacoes': transacoes, 'fields': get_field_names(Transacao)})
+    form = TransacaoForm(usuario=request.user)
+    if request.method == 'POST':
+        nome = request.POST.get('nome')
+        valor = request.POST.get('valor')
+        data = request.POST.get('data')
+        observacoes = request.POST.get('observacoes')
+        categoria = request.POST.get('categoria')
+        
+        if nome or valor or data or observacoes or categoria:
+            if nome:
+                transacoes = transacoes.filter(nome__icontains=nome)
+            if valor:
+                transacoes = transacoes.filter(valor__icontains=valor)
+            if data:
+                transacoes = transacoes.filter(data=data)
+            if observacoes:
+                transacoes = transacoes.filter(observacoes__icontains=observacoes)
+            if categoria:
+                transacoes = transacoes.filter(categoria=categoria)
+    return render(request, 'app/transacoes.html', {'transacoes': transacoes, 'field_names': get_field_names(Transacao), 'form': form})
 
 class TransacaoCreateView(LoginRequiredMixin, CreateView):
     model = Transacao
@@ -198,8 +253,15 @@ class TransacaoDeleteView(LoginRequiredMixin, DeleteView):
 
 @login_required
 def metas_financeiras(request):
-    metas_financeiras = MetaFinanceira.objects.filter(usuario=request.user)
-    return render(request, 'app/metas_financeiras.html', {'metas_financeiras': metas_financeiras, 'fields': get_field_names(MetaFinanceira)})
+    metas_financeiras = MetaFinanceira.objects.filter(usuario=request.user).order_by('nome')
+    form = MetaFinanceiraFilterForm()
+    if request.method == 'POST':
+        meta_financeira = form.save(commit=False)
+        meta_financeira.usuario = request.user
+        nome = request.POST.get('nome')
+        if nome:
+            metas_financeiras = metas_financeiras.filter(nome__icontains=nome)
+    return render(request, 'app/metas_financeiras.html', {'metas_financeiras': metas_financeiras, 'field_names': get_field_names(MetaFinanceira), 'form': form})
 
 class MetaFinanceiraCreateView(LoginRequiredMixin, CreateView):
     model = MetaFinanceira
@@ -209,22 +271,12 @@ class MetaFinanceiraCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.usuario = self.request.user
         return super().form_valid(form)
-    
-    def get_form_kwargs(self):
-            kwargs = super().get_form_kwargs()
-            kwargs['usuario'] = self.request.user
-            return kwargs
 
 class MetaFinanceiraUpdateView(LoginRequiredMixin, UpdateView):
     model = MetaFinanceira
     form_class = MetaFinanceiraForm
     template_name = 'app/update_meta_financeira.html'
     
-    def get_form_kwargs(self):
-            kwargs = super().get_form_kwargs()
-            kwargs['usuario'] = self.request.user
-            return kwargs
-
 class MetaFinanceiraUpdateValueView(LoginRequiredMixin, UpdateView):
     model = MetaFinanceira
     fields = ['valor_guardar_mes']

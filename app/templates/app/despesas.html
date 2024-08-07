@@ -9,7 +9,7 @@
         <tr>
             <td>{{ despesa.nome }}</td>
             <td>{{ despesa.valor }}</td>
-            <td>{{ despesa.data }}</td>
+            <td>{{ despesa.data|date:"SHORT_DATE_FORMAT" }}</td>
             <td>{{ despesa.observacoes }}</td>
             <td>{{ despesa.categoria.nome }}</td>
             <td><a href="{% url 'update_despesa' despesa.slug %}" class="btn btn-warning">Editar</a></td>
@@ -24,6 +24,16 @@
     </tr>
 {% endblock %}
 
-{% block form_title %}Adicionar despesa{% endblock %}
+{% block button %}Filtrar{% endblock %}
 
-{% block button %}Adicionar despesa{% endblock%}
+{% block form_classes %}row row-cols-sm-auto g-3 align-items-center{% endblock %}
+
+{% block script %}
+    <script>
+        document.querySelector('select').required = false;
+        inputs = document.querySelectorAll('input');
+        for (let input of inputs) {
+            input.required = false;
+        }
+    </script>
+{% endblock %}
