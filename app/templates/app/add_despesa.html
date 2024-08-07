@@ -2,28 +2,9 @@
 
 {% block title %}Adicionar despesa{% endblock%}
 
-{% block form %}
-    <h3 class="text-center mt-3">Adicionar despesa</h3>
-    <form method="post" class="col-6 offset-md-3 mt-3">
-        {% csrf_token %}
-        {% for form_field in form %}
-            <div class="form-floating mb-3">
-                {{ form_field }}
-                <label for="{{ form_field.id_for_label }}">{{ form_field.label }}</label>
-                {% if form_field.help_text %}
-                    <small class="form-text text-muted">{{ form_field.help_text }}</small>
-                {% endif %}
-                {% for error in form_field.errors %}
-                    <div class="alert alert-danger">{{ error }}</div>
-                {% endfor %}
-            </div>
-        {% endfor %}
-        <button class="btn btn-secondary" id="botaoData">Hoje</button>
-        <input type="submit" class="btn btn-primary" value="Adicionar despesa">
-    </form>
-{% endblock %}
+{% block form_title %}Adicionar despesa{% endblock %}
 
-{% block script %}{% endblock %}
+{% block button %}Adicionar despesa{% endblock%}
 
 {% block table %}
     {% comment %}{% endcomment %}

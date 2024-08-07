@@ -54,7 +54,36 @@
                     </tbody>
                 </table>
             {% endblock %}
-            {% block form %}{% endblock %}
+
+            {% block filter_form %}{% endblock %}
+
+            {% block add_form %}
+                <h3 class="text-center mt-3">{% block form_title %}{% endblock %}</h3>
+                <form method="post" class="col-6 offset-md-3 mt-3">
+                    {% csrf_token %}
+                    {% for form_field in form %}
+                        {% if form_field.name == 'data' %}
+                            <div class="input-group mb-3">
+                                <label for="{{ form_field.id_for_label }}" class="input-group-text">{{ form_field.label }}</label>
+                                {{ form_field }}
+                                <button type="button" id="botaoHoje" class="btn btn-dark">Hoje</button>
+                            </div>
+                        {% else %}
+                            <div class="form-floating mb-3">
+                                {{ form_field }}
+                                <label for="{{ form_field.id_for_label }}">{{ form_field.label }}</label>
+                            </div>
+                        {% endif %}
+                        {% if form_field.help_text %}
+                            <small class="form-text text-muted">{{ form_field.help_text }}</small>
+                        {% endif %}
+                        {% for error in form_field.errors %}
+                            <div class="alert alert-danger">{{ error }}</div>
+                        {% endfor %}
+                    {% endfor %}
+                    <input type="submit" class="btn btn-primary" value="{% block button %}{% endblock%}">
+                </form>
+            {% endblock %}
         </main>
 
         <script>
@@ -62,15 +91,15 @@
             for (let input of inputs) {
                 input.classList.add('form-control');
             }
-
-            let labels = document.querySelectorAll('label');
-            for (let label of labels) {
-                label.classList.add('form-label');
-            }
             
             document.querySelector('select').classList.add('form-select')
             document.querySelector('textarea').classList.add('form-control')
             document.querySelector('textarea').rows = 1
+
+            document.querySelector('#botaoHoje').addEventListener('click', () => {
+                const hoje = new Date().toISOString().split('T')[0];
+                document.querySelector('#id_data').value = hoje;
+            })
         </script>
         {% block script %}{% endblock %}
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
