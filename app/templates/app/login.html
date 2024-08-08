@@ -9,10 +9,15 @@
     {% endcomment %}
 {% endblock %}
 
-{% block button %}Entrar{% endblock %}
+{% block form_classes %}col-6 offset-md-3 mt-3{% endblock %}
+
+{% block form_submit %}Entrar{% endblock %}
 
 {% block cadastro %}
-    <a href="{% url 'cadastro' %}">Cadastre-se</a>
+    <div class="col-6 offset-md-3 mt-3">
+        <p>Ainda não é cadastrado?</p>
+        <a class="btn btn-success" href="{% url 'cadastro' %}">Cadastre-se</a>
+    </div>
 {% endblock %}
 
 {% block table %}

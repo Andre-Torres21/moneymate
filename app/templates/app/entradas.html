@@ -10,7 +10,11 @@
             <td>{{ entrada.nome }}</td>
             <td>{{ entrada.valor }}</td>
             <td>{{ entrada.data|date:"SHORT_DATE_FORMAT" }}</td>
-            <td>{{ entrada.observacoes }}</td>
+            {% if entrada.observacoes %}
+                <td>{{ entrada.observacoes }}</td>
+            {% else %}
+                <td>Sem observações</td>
+            {% endif %}
             <td>{{ entrada.categoria.nome }}</td>
             <td><a href="{% url 'update_entrada' entrada.slug %}" class="btn btn-warning">Editar</a></td>
             <td><a href="{% url 'delete_entrada' entrada.slug %}" class="btn btn-danger">Excluir</a></td>
@@ -24,14 +28,9 @@
     </tr>
 {% endblock %}
 
-{% block add_form %}
-    {% comment %}
-    {% endcomment %}
-{% endblock %}
+{% block form_classes %}row row-cols-lg-auto g-3 align-items-center{% endblock %}
 
-{% block button %}Filtrar{% endblock %}
-
-{% block classes %}row row-cols-lg-auto g-3 align-items-center{% endblock %}
+{% block form_submit %}Filtrar{% endblock %}
 
 {% block script %}
     <script>

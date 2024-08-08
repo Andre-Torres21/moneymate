@@ -10,7 +10,11 @@
             <td>{{ despesa.nome }}</td>
             <td>{{ despesa.valor }}</td>
             <td>{{ despesa.data|date:"SHORT_DATE_FORMAT" }}</td>
-            <td>{{ despesa.observacoes }}</td>
+            {% if despesa.observacoes %}
+                <td>{{ despesa.observacoes }}</td>
+            {% else %}
+                <td>Sem observações</td>
+            {% endif %}
             <td>{{ despesa.categoria.nome }}</td>
             <td><a href="{% url 'update_despesa' despesa.slug %}" class="btn btn-warning">Editar</a></td>
             <td><a href="{% url 'delete_despesa' despesa.slug %}" class="btn btn-danger">Excluir</a></td>
@@ -24,14 +28,9 @@
     </tr>
 {% endblock %}
 
-{% block add_form %}
-    {% comment %}
-    {% endcomment %}
-{% endblock %}
+{% block form_classes %}row row-cols-lg-auto g-3 align-items-center{% endblock %}
 
-{% block button %}Filtrar{% endblock %}
-
-{% block form_classes %}row row-cols-sm-auto g-3 align-items-center{% endblock %}
+{% block form_submit %}Filtrar{% endblock %}
 
 {% block script %}
     <script>

@@ -10,7 +10,11 @@
             <td>{{ transacao.nome }}</td>
             <td>{{ transacao.valor }}</td>
             <td>{{ transacao.data|date:"SHORT_DATE_FORMAT" }}</td>
-            <td>{{ transacao.observacoes }}</td>
+            {% if transacao.observacoes %}
+                <td>{{ transacao.observacoes }}</td>
+            {% else %}
+                <td>Sem observações</td>
+            {% endif %}
             <td>{{ transacao.categoria }}</td>
             <td><a href="{% url 'update_transacao' transacao.slug %}" class="btn btn-warning">Editar</a></td>
             <td><a href="{% url 'delete_transacao' transacao.slug %}" class="btn btn-danger">Excluir</a></td>
@@ -24,14 +28,9 @@
     </tr>
 {% endblock %}
 
-{% block add_form %}
-    {% comment %}
-    {% endcomment %}
-{% endblock %}
+{% block form_classes %}row row-cols-lg-auto g-3 align-items-center{% endblock %}
 
-{% block button %}Filtrar{% endblock %}
-
-{% block classes %}row row-cols-lg-auto g-3 align-items-center{% endblock %}
+{% block form_submit %}Filtrar{% endblock %}
 
 {% block script %}
     <script>

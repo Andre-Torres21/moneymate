@@ -68,10 +68,10 @@ class MetaFinanceiraForm(forms.ModelForm):
         fields = ['nome', 'valor_total', 'meta_valor_mes']
         
     def __init__(self, *args, **kwargs):
+        super(MetaFinanceiraForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             placeholder = f'Digite o {field.label.lower()}'
             field.widget.attrs['placeholder'] = placeholder
-        super(MetaFinanceiraForm, self).__init__(*args, **kwargs)
         
 class MetaFinanceiraFilterForm(forms.ModelForm):
     class Meta:
@@ -79,7 +79,7 @@ class MetaFinanceiraFilterForm(forms.ModelForm):
         fields = ['nome']
         
     def __init__(self, *args, **kwargs):
+        super(MetaFinanceiraFilterForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             placeholder = f'Digite o {field.label.lower()}'
             field.widget.attrs['placeholder'] = placeholder
-        super(MetaFinanceiraFilterForm, self).__init__(*args, **kwargs)
