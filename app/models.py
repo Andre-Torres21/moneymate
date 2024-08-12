@@ -12,14 +12,14 @@ class Categoria(models.Model):
     nome = models.CharField(max_length=64, verbose_name='Nome')
     tipo = models.CharField(choices=tipos_despesa, verbose_name='Tipo')
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
-    slug = models.SlugField(null=True)
+    slug = models.SlugField(unique=True)
 
     def get_absolute_url(self):
         return reverse('categorias')
     
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.nome)
+            self.slug = slugify(f'{self.nome}-{self.usuario.id}')
 
         return super().save(*args, **kwargs)
 
@@ -33,14 +33,14 @@ class Despesa(models.Model):
     observacoes = models.TextField(blank=True, verbose_name='Observações')
     categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, verbose_name='Categoria')
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
-    slug = models.SlugField(null=True)
+    slug = models.SlugField(unique=True)
 
     def get_absolute_url(self):
         return reverse('despesas')
     
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.nome)
+            self.slug = slugify(f'{self.nome}-{self.usuario.id}')
 
         return super().save(*args, **kwargs)
 
@@ -54,14 +54,14 @@ class Entrada(models.Model):
     observacoes = models.TextField(blank=True, verbose_name='Observações')
     categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, verbose_name='Categoria')
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
-    slug = models.SlugField(null=True)
+    slug = models.SlugField(unique=True)
     
     def get_absolute_url(self):
         return reverse('entradas')
     
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.nome)
+            self.slug = slugify(f'{self.nome}-{self.usuario.id}')
 
         return super().save(*args, **kwargs)
 
@@ -75,14 +75,14 @@ class Transacao(models.Model):
     observacoes = models.TextField(blank=True, verbose_name='Observações')
     categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, verbose_name='Categoria')
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
-    slug = models.SlugField(null=True)
+    slug = models.SlugField(unique=True)
     
     def get_absolute_url(self):
         return reverse('transacoes')
     
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.nome)
+            self.slug = slugify(f'{self.nome}-{self.usuario.id}')
 
         return super().save(*args, **kwargs)
 
@@ -98,14 +98,14 @@ class MetaFinanceira(models.Model):
     meta_valor_mes = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Meta de valor por mês')
     valor_guardar_mes = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True, verbose_name='Valor a guardar no mês')
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
-    slug = models.SlugField(null=True)
+    slug = models.SlugField(unique=True)
     
     def get_absolute_url(self):
         return reverse('metas_financeiras')
     
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.nome)
+            self.slug = slugify(f'{self.nome}-{self.usuario.id}')
 
         return super().save(*args, **kwargs)
 

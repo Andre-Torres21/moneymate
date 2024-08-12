@@ -10,11 +10,12 @@
         <link rel="stylesheet" href="{% static 'style.css' %}">
     </head>
     <body>
-        <header class="d-flex justify-content-center align-items-center flex-column">
+        <header class="d-flex flex-column justify-content-center align-items-center">
             <h1 class="text-center">Money Mate - Gerenciador de finanças</h1>
             {% block nav %}
                 <nav class="navbar navbar-expand-lg border-top border-dark d-flex justify-content-center">
                     <ul class="navbar-nav">
+                        <li class="nav-item border-end border-white"><a class="nav-link text-light" href="{% url 'index' %}">Página inicial</a></li>
                         <li class="nav-item border-end border-white"><a class="nav-link text-light" href="{% url 'despesas' %}">Gerenciar despesas</a></li>
                         <li class="nav-item border-end border-white"><a class="nav-link text-light" href="{% url 'entradas' %}">Gerenciar entradas</a></li>
                         <li class="nav-item border-end border-white"><a class="nav-link text-light" href="{% url 'transacoes' %}">Gerenciar transações</a></li>
@@ -57,7 +58,7 @@
                 </table>
             {% endblock %}
 
-            {% block add_form %}
+            {% block form %}
                 <h3 class="text-center mt-3">{% block form_title %}{% endblock %}</h3>
                 <form method="post" class="{% block form_classes %}{% endblock %}">
                     {% csrf_token %}
@@ -85,7 +86,9 @@
                             {% endfor %}
                         </div>
                     {% endfor %}
-                    <div class="col-12"><input type="submit" class="btn btn-primary" value="{% block form_submit %}{% endblock %}"></div>
+                    <div class="col-12">
+                        <input type="submit" class="btn btn-primary" value="{% block form_submit %}{% endblock %}">
+                    </div>
                 </form>
                 {% endblock %}
                 {% block cadastro %}{% endblock %}

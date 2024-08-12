@@ -14,7 +14,11 @@
             <td>{{ meta_financeira.nome }}</td>
             <td>{{ meta_financeira.valor_total }}</td>
             <td>{{ meta_financeira.meta_valor_mes }}</td>
-            <td>{{ meta_financeira.valor_guardar_mes }}</td>
+            {% if meta_financeira.valor_guardar_mes %}
+                <td>{{ meta_financeira.valor_guardar_mes }}</td>
+            {% else %}
+                <td>Valor não definido</td>
+            {% endif %}
             <td><a href="{% url 'update_meta_financeira' meta_financeira.slug %}" class="btn btn-warning">Editar</a></td>
             <td><a href="{% url 'update_valor_meta_financeira' meta_financeira.slug %}" class="btn btn-warning">Editar valor a guardar para o mês</a></td>
             <td><a href="{% url 'delete_meta_financeira' meta_financeira.slug %}" class="btn btn-danger">Excluir</a></td>
@@ -28,7 +32,7 @@
     </tr>
 {% endblock %}
 
-{% block form_classes %}row row-cols-lg-auto g-3 align-items-center{% endblock %}
+{% block form_classes %}row row-cols-lg-auto g-3 align-items-center justify-content-center{% endblock %}
 
 {% block form_submit %}Filtrar{% endblock %}
 

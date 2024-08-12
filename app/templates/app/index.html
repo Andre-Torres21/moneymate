@@ -1,8 +1,62 @@
 {% extends 'app/base.html' %}
 
+{% block title %}Money Mate{% endblock %}
+
+{% block nav %}
+    {% comment %}
+    {% endcomment %}
+{% endblock %}
+
 {% block index %}
     <h2>Bem vindo, {{request.user.first_name}}</h2>
     <p>Cotação atual do dólar: {cotacao}</p>
+
+    <div class="container mb-3">
+        <div class="row ms-3">
+            <div class="card me-3 mb-2" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Gerenciar despesas</h5>
+                    <p class="card-text">Controle e registre suas despesas diárias.</p>
+                    <a href="{% url 'despesas' %}" class="btn btn-primary">Acessar despesas</a>
+                </div>
+            </div>
+            <div class="card me-3 mb-2" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Gerenciar entradas</h5>
+                    <p class="card-text">Acompanhe todas as fontes de receita.</p>
+                    <a href="{% url 'entradas' %}" class="btn btn-primary">Acessar entradas</a>
+                </div>
+            </div>
+            <div class="card me-3 mb-2" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Gerenciar transações</h5>
+                    <p class="card-text">Organize e visualize todas as movimentações financeiras.</p>
+                    <a href="{% url 'transacoes' %}" class="btn btn-primary">Acessar transações</a>
+                </div>
+            </div>
+            <div class="card me-3 mb-2" style="width: 20rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Gerenciar metas financeiras</h5>
+                    <p class="card-text">Classifique despesas e receitas em categorias específicas.</p>
+                    <a href="{% url 'metas_financeiras' %}" class="btn btn-primary">Acessar metas financeiras</a>
+                </div>
+            </div>
+            <div class="card me-3 mb-2" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Gerenciar categorias</h5>
+                    <p class="card-text">Estabeleça e acompanhe seus objetivos financeiros.</p>
+                    <a href="{% url 'categorias' %}" class="btn btn-primary">Acessar categorias</a>
+                </div>
+            </div>
+            <div class="card me-3 mb-2" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Relatórios mensais</h5>
+                    <p class="card-text">Visualize relatórios financeiros detalhados mensalmente.</p>
+                    <a href="{% url 'relatorio_mensal' %}" class="btn btn-primary">Acessar relatórios</a>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block form %}
