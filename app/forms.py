@@ -14,6 +14,12 @@ class CategoriaForm(forms.ModelForm):
         model = Categoria
         fields = ['nome', 'tipo']
         
+    def __init__(self, *args, **kwargs):
+        super(CategoriaForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            placeholder = field.label.capitalize()
+            field.widget.attrs['placeholder'] = placeholder
+        
 class DespesaForm(forms.ModelForm):
     class Meta:
         model = Despesa
@@ -27,7 +33,7 @@ class DespesaForm(forms.ModelForm):
         super(DespesaForm, self).__init__(*args, **kwargs)
         self.fields['categoria'].queryset = Categoria.objects.filter(usuario=usuario)
         for field_name, field in self.fields.items():
-            placeholder = f'Digite o {field.label.lower()}'
+            placeholder = field.label.capitalize()
             field.widget.attrs['placeholder'] = placeholder
         
 class EntradaForm(forms.ModelForm):
@@ -43,7 +49,7 @@ class EntradaForm(forms.ModelForm):
         super(EntradaForm, self).__init__(*args, **kwargs)
         self.fields['categoria'].queryset = Categoria.objects.filter(usuario=usuario)
         for field_name, field in self.fields.items():
-            placeholder = f'Digite o {field.label.lower()}'
+            placeholder = field.label.capitalize()
             field.widget.attrs['placeholder'] = placeholder
 
 class TransacaoForm(forms.ModelForm):
@@ -59,7 +65,7 @@ class TransacaoForm(forms.ModelForm):
         super(TransacaoForm, self).__init__(*args, **kwargs)
         self.fields['categoria'].queryset = Categoria.objects.filter(usuario=usuario)
         for field_name, field in self.fields.items():
-            placeholder = f'Digite o {field.label.lower()}'
+            placeholder = field.label.capitalize()
             field.widget.attrs['placeholder'] = placeholder
 
 class MetaFinanceiraForm(forms.ModelForm):
@@ -70,7 +76,7 @@ class MetaFinanceiraForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(MetaFinanceiraForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
-            placeholder = f'Digite o {field.label.lower()}'
+            placeholder = field.label.capitalize()
             field.widget.attrs['placeholder'] = placeholder
         
 class MetaFinanceiraFilterForm(forms.ModelForm):
@@ -81,5 +87,5 @@ class MetaFinanceiraFilterForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(MetaFinanceiraFilterForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
-            placeholder = f'Digite o {field.label.lower()}'
+            placeholder = field.label.capitalize()
             field.widget.attrs['placeholder'] = placeholder
