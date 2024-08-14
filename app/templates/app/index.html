@@ -1,5 +1,7 @@
 {% extends 'app/base.html' %}
 
+{% load static %}
+
 {% block title %}Money Mate{% endblock %}
 
 {% block nav %}
@@ -7,13 +9,23 @@
     {% endcomment %}
 {% endblock %}
 
+{% block logout_index %}
+    <div class="container-fluid d-flex justify-content-end pe-1 pb-1">
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Logout" class="btn btn-danger">
+        </form>
+    </div>
+{% endblock %}
+
 {% block index %}
     <h2>Bem vindo, {{request.user.first_name}}</h2>
-    <p>Cotação atual do dólar: {cotacao}</p>
+    <p>Cotação atual do dólar: {{ cotacao_dolar|floatformat:2 }}</p>
 
     <div class="container mb-3">
         <div class="row ms-3">
             <div class="card me-3 mb-2" style="width: 18rem;">
+                <img src="{% static 'despesa.png' %}" alt="" class="card-img-top">
                 <div class="card-body">
                     <h5 class="card-title">Gerenciar despesas</h5>
                     <p class="card-text">Controle e registre suas despesas diárias.</p>
@@ -21,6 +33,7 @@
                 </div>
             </div>
             <div class="card me-3 mb-2" style="width: 18rem;">
+                <img src="{% static 'entrada.png' %}" alt="" class="card-img-top">
                 <div class="card-body">
                     <h5 class="card-title">Gerenciar entradas</h5>
                     <p class="card-text">Acompanhe todas as fontes de receita.</p>

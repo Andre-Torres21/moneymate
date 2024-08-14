@@ -12,12 +12,23 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
+import requests
 from .forms import *
 from .models import *
 
+def cotacao_dolar():
+    url = f"https://api.frankfurter.app/latest?from=USD&to=BRL"
+    response = requests.get(url)
+    dados = response.json()
+    
+    if response.status_code == 200:
+        return dados['rates']['BRL']
+    else:
+        return None
+    
 @login_required
 def index(request):
-    return render(request, 'app/index.html')
+    return render(request, 'app/index.html', {'cotacao_dolar': cotacao_dolar()})
 
 class CadastroView(CreateView):
     form_class = CadastroForm
