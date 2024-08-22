@@ -9,23 +9,18 @@
     {% endcomment %}
 {% endblock %}
 
-{% block logout_index %}
-    <div class="container-fluid d-flex justify-content-end pe-1 pb-1">
-        <form action="{% url 'logout' %}" method="post">
-            {% csrf_token %}
-            <input type="submit" value="Logout" class="btn btn-danger">
-        </form>
-    </div>
-{% endblock %}
-
 {% block index %}
-    <h2>Bem vindo, {{request.user.first_name}}</h2>
-    <p>Cotação atual do dólar: {{ cotacao_dolar|floatformat:2 }}</p>
+    <div class="mt-3 px-2 py-2 greeting-card" style="width: 300px;">
+        <h2>Bem vindo, {{request.user.first_name}}!</h2>
+    </div>
+    <div class="my-3  dollar-exchange-rate d-flex justify-content-center align-items-center" style="height: 60px;">
+        <h2>Cotação atual do dólar: {{ cotacao_dolar|floatformat:2 }}</h2>
+    </div>
 
     <div class="container mb-3">
         <div class="row ms-3">
             <div class="card me-3 mb-2" style="width: 18rem;">
-                <img src="{% static 'despesa.png' %}" alt="" class="card-img-top">
+                <img src="{% static 'despesa.png' %}" alt="" class="card-img-top mt-2">
                 <div class="card-body">
                     <h5 class="card-title">Gerenciar despesas</h5>
                     <p class="card-text">Controle e registre suas despesas diárias.</p>
@@ -41,6 +36,7 @@
                 </div>
             </div>
             <div class="card me-3 mb-2" style="width: 18rem;">
+                <img src="{% static 'transacao.png' %}" alt="" class="card-img-top">
                 <div class="card-body">
                     <h5 class="card-title">Gerenciar transações</h5>
                     <p class="card-text">Organize e visualize todas as movimentações financeiras.</p>
@@ -48,6 +44,7 @@
                 </div>
             </div>
             <div class="card me-3 mb-2" style="width: 20rem;">
+                <img src="{% static 'meta.png' %}" alt="" class="card-img-top">
                 <div class="card-body">
                     <h5 class="card-title">Gerenciar metas financeiras</h5>
                     <p class="card-text">Classifique despesas e receitas em categorias específicas.</p>
@@ -55,6 +52,7 @@
                 </div>
             </div>
             <div class="card me-3 mb-2" style="width: 18rem;">
+                <img src="{% static 'categoria.png' %}" alt="" class="card-img-top">
                 <div class="card-body">
                     <h5 class="card-title">Gerenciar categorias</h5>
                     <p class="card-text">Estabeleça e acompanhe seus objetivos financeiros.</p>
@@ -62,6 +60,7 @@
                 </div>
             </div>
             <div class="card me-3 mb-2" style="width: 18rem;">
+                <img src="{% static 'relatorio.png' %}" alt="" class="card-img-top">
                 <div class="card-body">
                     <h5 class="card-title">Relatórios mensais</h5>
                     <p class="card-text">Visualize relatórios financeiros detalhados mensalmente.</p>

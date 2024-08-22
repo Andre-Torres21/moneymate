@@ -1,9 +1,20 @@
-header {
+header, footer, .greeting-card, .dollar-exchange-rate {
     background-color: #b8dbd9;
+}
 
+h1 {
+    font-size: 3rem;
+}
+
+.dollar-exchange-rate {
+    font-size: 2rem;
 }
 
 nav {
     background-color: #586F7C;
     width: 100%;
+}
+
+footer {
+    height: 100px;
 }
