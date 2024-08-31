@@ -11,6 +11,7 @@
     </head>
     <body style="height: 100vh;">
         <header class="d-flex flex-column justify-content-center align-items-center">
+            {% block account_buttons %}
                 <div class="d-flex align-items-center justify-content-end" style="gap: 10px; height: 70px; width: 100%;">
                     <a href="" class="btn btn-primary btn-lg">Meu perfil</a>
                     <form action="{% url 'logout' %}" method="post" class="me-1">
@@ -19,6 +20,7 @@
                     </form>
                 </div>
                 <div class="container-fluid bg-light" style="height: 20px;"></div>
+            {% endblock %}
                 
                 <div class="d-flex justify-content-center align-items-center" style="height: 100px; width: 100%;">
                     <h1>Money Mate - Gerenciador de finanças</h1>
@@ -43,36 +45,36 @@
             
             {% block form %}
                 <h3 class="text-center mt-3">{% block form_title %}{% endblock %}</h3>
-                <form method="post" class="{% block form_classes %}{% endblock %}">
-                    {% csrf_token %}
-                    {% for form_field in form %}
-                        <div class="col">
-                            {% if form_field.name == 'data' %}
-                                <div class="input-group mb-3">
-                                    <div class="form-floating">
+                <form method="post" class="{% block form_classes %}{% endblock %}" style="{% block style %}{% endblock %}">
+                        {% csrf_token %}
+                        {% for form_field in form %}
+                            <div class="col">
+                                {% if form_field.name == 'data' %}
+                                    <div class="input-group mb-3">
+                                        <div class="form-floating">
+                                            {{ form_field }}
+                                            <label for="{{ form_field.id_for_label }}">{{ form_field.label }}</label>
+                                        </div>
+                                        <button type="button" id="botaoHoje" class="input-group-text btn btn-dark">Hoje</button>
+                                    </div>
+                                {% else %}
+                                    <div class="form-floating mb-3">
                                         {{ form_field }}
                                         <label for="{{ form_field.id_for_label }}">{{ form_field.label }}</label>
                                     </div>
-                                    <button type="button" id="botaoHoje" class="input-group-text btn btn-dark">Hoje</button>
-                                </div>
-                            {% else %}
-                                <div class="form-floating mb-3">
-                                    {{ form_field }}
-                                    <label for="{{ form_field.id_for_label }}">{{ form_field.label }}</label>
-                                </div>
-                            {% endif %}
-                            {% if form_field.help_text %}
-                            <small class="form-text text-muted">{{ form_field.help_text }}</small>
-                            {% endif %}
-                            {% for error in form_field.errors %}
-                            <div class="alert alert-danger">{{ error }}</div>
+                                {% endif %}
+                                {% if form_field.help_text %}
+                                <small class="form-text text-muted">{{ form_field.help_text }}</small>
+                                {% endif %}
+                                {% for error in form_field.errors %}
+                                <div class="alert alert-danger">{{ error }}</div>
+                                {% endfor %}
+                            </div>
                             {% endfor %}
-                        </div>
-                        {% endfor %}
-                        <div class="col-12">
-                            <input type="submit" class="btn btn-primary" value="{% block form_submit %}{% endblock %}">
-                        </div>
-                    </form>
+                            <div style="margin-top: 6px;">
+                                <input type="submit" class="btn btn-primary" value="{% block form_submit %}{% endblock %}">
+                            </div>
+                        </form>
                     {% endblock %}
                     
                     {% block table %}
