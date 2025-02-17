@@ -1,34 +1,70 @@
-README - CliniTech: Sistema de Gestão de Clínicas Médicas
+Money Mate - Gerenciador de Finanças Pessoais
 
-📌 Sobre o Projeto
+Descrição
 
-CliniTech é um sistema web desenvolvido para auxiliar a gestão de clínicas médicas, oferecendo funcionalidades como cadastro e gerenciamento de pacientes, médicos, prontuários, consultas e insumos. O objetivo do sistema é otimizar processos administrativos, garantindo eficiência e praticidade para profissionais da saúde e secretários.
+O Money Mate é uma aplicação web desenvolvida para auxiliar no gerenciamento de finanças pessoais. O sistema permite o controle de despesas, entradas, transações, categorias e metas financeiras, além da geração de relatórios detalhados para uma melhor visualização das finanças do usuário. A aplicação oferece filtros avançados para facilitar a análise financeira e ajudar os usuários a tomarem decisões mais assertivas.
 
-🚀 Funcionalidades
+Funcionalidades
 
-Gerenciamento de Pacientes, Médicos e Insumos: Cadastro, edição e exclusão e visualização de registros.
+✅ Gerenciamento de Despesas – Registre e acompanhe seus gastos com categorização detalhada.
+✅ Gerenciamento de Entradas – Controle suas fontes de receita de maneira eficiente.
+✅ Gerenciamento de Transações – Visualize todas as movimentações financeiras em um só lugar.
+✅ Gerenciamento de Categorias – Classifique despesas e receitas de forma personalizada.
+✅ Metas Financeiras – Defina e monitore objetivos financeiros ao longo do tempo.
+✅ Relatórios Mensais – Consulte relatórios financeiros com saldo atual, total de despesas e receitas.
+✅ Filtragem Avançada – Busque e analise seus dados financeiros com filtros personalizados.
 
-Agendamento de Consultas: Controle de horários disponíveis e gerenciamento de status (agendado, concluído, não compareceu).
+Tecnologias Utilizadas
 
-Prontuários Médicos: Registro de informações clínicas, histórico de consultas e prescrição de medicamentos.
+🔹 Backend: Python, Django, PostgreSQL
+🔹 Frontend: HTML, CSS, JavaScript, Bootstrap
+🔹 Modelagem: UML (diagramas de caso de uso e de classes)
+🔹 Versionamento: Git e GitHub
+🔹 Gerenciamento do Projeto: SCRUM no Notion
 
-Autenticação e Controle de Acesso: Diferentes permissões para médicos, secretários e pacientes.
+Instalação e Configuração
 
-Filtragem de Dados: Busca avançada por pacientes, médicos e consultas utilizando django-filters.
+1. Clone o Repositório
 
-Interface Responsiva: Desenvolvida com Bootstrap para garantir usabilidade em diferentes dispositivos.
+git clone https://github.com/seuusuario/money-mate.git
+cd money-mate
 
+2. Crie e Ative um Ambiente Virtual
 
-🛠️ Tecnologias Utilizadas
+python -m venv venv
+source venv/bin/activate  # Para Linux/macOS
+venv\Scripts\activate      # Para Windows
 
-Django: Framework principal para desenvolvimento backend.
+3. Instale as Dependências
 
-Django Filters: Implementação de filtros avançados nos dados.
+pip install -r requirements.txt
 
-PostgreSQL: Banco de dados utilizado para armazenar as informações.
+4. Configure o Banco de Dados
 
-HTML, CSS e Bootstrap: Para estilização e responsividade.
+Edite o arquivo settings.py e configure as credenciais do PostgreSQL. Em seguida, execute as migrações:
 
-JavaScript: Para interatividade e validação no frontend.
+python manage.py migrate
 
-Pillow: Manipulação de imagens para upload de fotos de perfil.
+5. Crie um Superusuário
+
+python manage.py createsuperuser
+
+6. Inicie o Servidor
+
+python manage.py runserver
+
+Acesse o sistema em: http://127.0.0.1:8000/
+
+Hospedagem
+
+O sistema pode ser implantado em serviços como Fly.io, Heroku, ou Railway, garantindo acessibilidade remota.
+
+Contribuição
+
+Sinta-se à vontade para contribuir! Faça um fork do repositório, crie uma branch e envie um pull request.
+
+Licença
+
+Este projeto está licenciado sob a MIT License.
+
+💰 Money Mate – Controle suas finanças com segurança e praticidade!
