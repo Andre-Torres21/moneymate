@@ -23,9 +23,13 @@ Funcionalidades
 Tecnologias Utilizadas
 
 🔹 Backend: Python, Django, PostgreSQL
+
 🔹 Frontend: HTML, CSS, JavaScript, Bootstrap
+
 🔹 Modelagem: UML (diagramas de caso de uso e de classes)
+
 🔹 Versionamento: Git e GitHub
+
 🔹 Gerenciamento do Projeto: SCRUM no Notion
 
 Instalação e Configuração
