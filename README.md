@@ -7,11 +7,17 @@ O Money Mate é uma aplicação web desenvolvida para auxiliar no gerenciamento 
 Funcionalidades
 
 ✅ Gerenciamento de Despesas – Registre e acompanhe seus gastos com categorização detalhada.
+
 ✅ Gerenciamento de Entradas – Controle suas fontes de receita de maneira eficiente.
+
 ✅ Gerenciamento de Transações – Visualize todas as movimentações financeiras em um só lugar.
+
 ✅ Gerenciamento de Categorias – Classifique despesas e receitas de forma personalizada.
+
 ✅ Metas Financeiras – Defina e monitore objetivos financeiros ao longo do tempo.
+
 ✅ Relatórios Mensais – Consulte relatórios financeiros com saldo atual, total de despesas e receitas.
+
 ✅ Filtragem Avançada – Busque e analise seus dados financeiros com filtros personalizados.
 
 Tecnologias Utilizadas
